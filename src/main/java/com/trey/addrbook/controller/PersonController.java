@@ -13,6 +13,7 @@ import com.trey.addrbook.domain.Person;
 import com.trey.addrbook.dto.PersonDto;
 import com.trey.addrbook.dto.save.SavePersonRequest;
 import com.trey.addrbook.service.PersonService;
+import com.trey.addrbook.util.PersonDtoFactory;
 
 /**
  * @author Adapted from http://codetutr.com/2013/04/09/spring-mvc-easy-rest-based-json-services-with-responsebody/
@@ -21,23 +22,25 @@ import com.trey.addrbook.service.PersonService;
 public class PersonController {
 
 	private PersonService personService;
+	private PersonDtoFactory personDtoFactory;
 
 	@Autowired
-	public PersonController(PersonService personService) {
+	public PersonController(PersonService personService, PersonDtoFactory personDtoFactory) {
 		this.personService = personService;
+		this.personDtoFactory = personDtoFactory;
 	}
 
 	@RequestMapping("person/{id}")
 	@ResponseBody
 	public PersonDto getById(@PathVariable Integer id) {
-		return convertToDto(personService.getPersonById(id));
+		return personDtoFactory.createFromDomain(personService.getPersonById(id));
 	}
 
 	// same as above method, just showing different URL mapping
 	@RequestMapping(value = "person", params = "id")
 	@ResponseBody
 	public PersonDto getByIdFromParam(@RequestParam Integer id) {
-		return convertToDto(personService.getPersonById(id));
+		return personDtoFactory.createFromDomain(personService.getPersonById(id));
 	}
 
 	// handles person form submit
@@ -50,14 +53,6 @@ public class PersonController {
 		person.setUsername(request.getUsername());
 		personService.savePerson(person);
 		return person.getId();
-	}
-
-	private static PersonDto convertToDto(Person domain) {
-		// TODO convert to dozer
-		PersonDto dto = new PersonDto();
-		dto.setId(domain.getId());
-		dto.setFullname(domain.getFirstName() + " " + domain.getLastName());
-		return dto;
 	}
 
 }

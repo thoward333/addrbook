@@ -21,6 +21,7 @@ import com.trey.addrbook.controller.PersonController;
 import com.trey.addrbook.domain.Person;
 import com.trey.addrbook.dto.save.SavePersonRequest;
 import com.trey.addrbook.service.PersonService;
+import com.trey.addrbook.util.PersonDtoFactory;
 import com.trey.controller.fixture.PersonTestFixture;
 
 @RunWith(MockitoJUnitRunner.class)
@@ -33,7 +34,8 @@ public class TestPersonController {
 
 	@Before
 	public void setUp() {
-		mockMvc = MockMvcBuilders.standaloneSetup(new PersonController(personService)).build();
+		PersonDtoFactory personDtoFactory = new PersonDtoFactory();
+		mockMvc = MockMvcBuilders.standaloneSetup(new PersonController(personService, personDtoFactory)).build();
 	}
 
 	@Test

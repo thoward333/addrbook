@@ -6,7 +6,7 @@ import org.springframework.context.annotation.Import;
 
 @Configuration
 @Import(DatabaseConfig.class)
-@ComponentScan(basePackages = { "com.trey.addrbook.service", "com.trey.addrbook.dao" })
+@ComponentScan(basePackages = { "com.trey.addrbook.service", "com.trey.addrbook.dao", "com.trey.addrbook.util" })
 public class RootConfig {
 
 }
