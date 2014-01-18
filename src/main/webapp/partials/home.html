@@ -1,0 +1,26 @@
+<form ng-submit="createPerson()">
+	<p>Create a new user:</p>
+	<p>
+		Username: <input ng-model="username" />
+	</p>
+	<p>
+		First Name: <input ng-model="firstName" />
+	</p>
+	<p>
+		Last Name: <input ng-model="lastName" />
+	</p>
+	<input type="submit" />
+	
+	<p ng-show="newUserId">
+		User created with id: {{newUserId}}
+	</p>
+</form>
+
+<div>
+	<p>Find a user by id:</p>
+	<form ng-submit="searchPerson()">
+		<input ng-model="searchPersonId" />
+	</form>
+
+	<div class="searchOutput">{{person | json}}</div>
+</div>
