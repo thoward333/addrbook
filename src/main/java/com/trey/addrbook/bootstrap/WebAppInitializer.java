@@ -13,10 +13,17 @@ import org.springframework.web.context.ContextLoaderListener;
 import org.springframework.web.context.support.AnnotationConfigWebApplicationContext;
 import org.springframework.web.servlet.DispatcherServlet;
 
+/**
+ * This is the main bootstrap. Note the special interface, which is called on startup.
+ * This declares the Spring contexts (root and mvc) and binds the dispatcher servlet.
+ * 
+ * @author Trey
+ */
 public class WebAppInitializer implements WebApplicationInitializer {
 
 	private static final Logger logger = LoggerFactory.getLogger(WebApplicationInitializer.class);
 
+	@Override
 	public void onStartup(ServletContext servletContext) throws ServletException {
 
 		// Create the root appcontext

@@ -9,8 +9,6 @@ import com.trey.addrbook.domain.Person;
 @Service
 public class PersonServiceImpl implements PersonService {
 
-	String[] names = { "Nikolaus Otto", "Robert Ford", "Gottlieb Daimler", "Lt. General Masaharu Homma" };
-
 	private PersonDao personDao;
 
 	@Autowired
@@ -19,14 +17,17 @@ public class PersonServiceImpl implements PersonService {
 		this.personDao = personDao;
 	}
 
+	@Override
 	public Person getPersonById(Integer id) {
 		return personDao.findById(id);
 	}
 
+	@Override
 	public void savePerson(Person person) {
 		personDao.insert(person);
 	}
 
+	@Override
 	public void updatePerson(Person p) {
 		personDao.update(p);
 	}

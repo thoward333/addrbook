@@ -1,5 +1,10 @@
 package com.trey.addrbook.dto;
 
+/**
+ * Specialized person data for REST layer.
+ * 
+ * @author Trey
+ */
 public class PersonDto {
 
 	private Integer id;

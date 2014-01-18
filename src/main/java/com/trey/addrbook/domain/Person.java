@@ -1,5 +1,10 @@
 package com.trey.addrbook.domain;
 
+/**
+ * Domain entity.
+ * 
+ * @author Trey
+ */
 public class Person {
 
 	private Integer id;

@@ -21,20 +21,24 @@ import com.trey.addrbook.controller.PersonController;
 import com.trey.addrbook.domain.Person;
 import com.trey.addrbook.dto.save.SavePersonRequest;
 import com.trey.addrbook.service.PersonService;
-import com.trey.addrbook.util.PersonDtoFactory;
+import com.trey.addrbook.util.DtoFactory;
 import com.trey.controller.fixture.PersonTestFixture;
 
+/**
+ * Unit tests the controller, including JSON serialization.
+ * 
+ * @author Trey
+ */
 @RunWith(MockitoJUnitRunner.class)
 public class TestPersonController {
 
 	private MockMvc mockMvc;
 
-	@Mock
-	private PersonService personService;
+	@Mock private PersonService personService;
 
 	@Before
 	public void setUp() {
-		PersonDtoFactory personDtoFactory = new PersonDtoFactory();
+		DtoFactory personDtoFactory = new DtoFactory();
 		mockMvc = MockMvcBuilders.standaloneSetup(new PersonController(personService, personDtoFactory)).build();
 	}
 
@@ -76,6 +80,7 @@ public class TestPersonController {
 		person.setId(null);
 		
 		doAnswer(new Answer<Object>() {
+			@Override
 			public Object answer(InvocationOnMock invocation) throws Throwable {
 				Object[] args = invocation.getArguments();
 				Person p = (Person) args[0];

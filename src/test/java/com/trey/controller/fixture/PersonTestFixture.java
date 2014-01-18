@@ -2,6 +2,11 @@ package com.trey.controller.fixture;
 
 import com.trey.addrbook.domain.Person;
 
+/**
+ * Test fixture for unit tests.
+ * 
+ * @author Trey
+ */
 public class PersonTestFixture {
 
 	public Person createPerson() {

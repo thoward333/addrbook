@@ -13,37 +13,51 @@ import com.trey.addrbook.domain.Person;
 import com.trey.addrbook.dto.PersonDto;
 import com.trey.addrbook.dto.save.SavePersonRequest;
 import com.trey.addrbook.service.PersonService;
-import com.trey.addrbook.util.PersonDtoFactory;
+import com.trey.addrbook.util.DtoFactory;
 
 /**
+ * REST layer for managing people.
+ * 
  * @author Adapted from http://codetutr.com/2013/04/09/spring-mvc-easy-rest-based-json-services-with-responsebody/
  */
 @Controller
 public class PersonController {
 
 	private PersonService personService;
-	private PersonDtoFactory personDtoFactory;
+	private DtoFactory personDtoFactory;
 
 	@Autowired
-	public PersonController(PersonService personService, PersonDtoFactory personDtoFactory) {
+	public PersonController(PersonService personService, DtoFactory personDtoFactory) {
 		this.personService = personService;
 		this.personDtoFactory = personDtoFactory;
 	}
 
+	/**
+	 * @param id
+	 * @return Returns the person with the given id.
+	 */
 	@RequestMapping("person/{id}")
 	@ResponseBody
-	public PersonDto getById(@PathVariable Integer id) {
-		return personDtoFactory.createFromDomain(personService.getPersonById(id));
+	public PersonDto getPersonById(@PathVariable Integer id) {
+		return personDtoFactory.createPerson(personService.getPersonById(id));
 	}
 
-	// same as above method, just showing different URL mapping
+	/**
+	 * Same as above method, just showing different URL mapping
+	 * @param id
+	 * @return Returns the person with the given id.
+	 */
 	@RequestMapping(value = "person", params = "id")
 	@ResponseBody
-	public PersonDto getByIdFromParam(@RequestParam Integer id) {
-		return personDtoFactory.createFromDomain(personService.getPersonById(id));
+	public PersonDto getPersonByIdFromParam(@RequestParam Integer id) {
+		return personDtoFactory.createPerson(personService.getPersonById(id));
 	}
 
-	// handles person form submit
+	/**
+	 * Creates a new person.
+	 * @param request
+	 * @return Returns the id for the new person.
+	 */
 	@RequestMapping(value = "person", method = RequestMethod.POST)
 	@ResponseBody
 	public Integer createPerson(@RequestBody SavePersonRequest request) {

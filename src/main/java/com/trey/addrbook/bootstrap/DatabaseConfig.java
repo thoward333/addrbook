@@ -9,6 +9,12 @@ import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.env.Environment;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
 
+/**
+ * Database configuration. Note the 'Import' annotation in RootConfig that activates this.
+ * PropertySource and Environment pair allows externalized settings.
+ * 
+ * @author Trey
+ */
 @Configuration
 @PropertySource("jdbc.properties")
 public class DatabaseConfig {

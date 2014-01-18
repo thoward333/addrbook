@@ -1,5 +1,10 @@
 package com.trey.addrbook.dto.save;
 
+/**
+ * Person data for creating a new person.
+ * 
+ * @author Trey
+ */
 public class SavePersonRequest {
 
 	private String username;
