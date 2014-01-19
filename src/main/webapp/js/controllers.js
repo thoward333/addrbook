@@ -10,13 +10,13 @@ addressbookControllers.controller('HomeCtrl', ['$rootScope', '$scope', '$routePa
 			console.log('BEGIN createPerson');
 			
 			$http.post('api/person', {
-					"username": $scope.username
+					"userName": $scope.userName
 					,"firstName": $scope.firstName
 					,"lastName": $scope.lastName
 			})
 			.success(function(data, status, headers, config) {
 				console.log('data = ' , data);
-				$scope.username = '';
+				$scope.userName = '';
 				$scope.firstName = '';
 				$scope.lastName = '';
 				$scope.newUserId = data;

@@ -68,7 +68,7 @@ public class PersonController {
 		Person person = new Person();
 		person.setFirstName(request.getFirstName());
 		person.setLastName(request.getLastName());
-		person.setUsername(request.getUsername());
+		person.setUserName(request.getUserName());
 		personService.savePerson(person);
 		return person.getId();
 	}

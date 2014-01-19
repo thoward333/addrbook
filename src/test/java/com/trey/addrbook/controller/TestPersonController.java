@@ -107,7 +107,7 @@ public class TestPersonController {
 		}).when(personService).savePerson((Person) anyObject());
 
 		SavePersonRequest spr = new SavePersonRequest();
-		spr.setUsername(person.getUsername());
+		spr.setUserName(person.getUserName());
 		spr.setFirstName(person.getFirstName());
 		spr.setLastName(person.getLastName());
 		

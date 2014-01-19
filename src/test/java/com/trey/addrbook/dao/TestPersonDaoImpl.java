@@ -23,7 +23,7 @@ public class TestPersonDaoImpl {
 	@Before
 	public void setUp() throws Exception {
 		DataSource dataSource = new EmbeddedDatabaseBuilder().setType(EmbeddedDatabaseType.HSQL)
-				.addScript("classpath:test-init.sql").build();
+				.addScript("classpath:init.sql").build();
 
 		personDao = new PersonDaoImpl(dataSource);
 	}
@@ -41,14 +41,14 @@ public class TestPersonDaoImpl {
 		personDao.findById(id);
 	}
 	
-//	@Test
-//	public void test_insert() {
-//		PersonTestFixture f = new PersonTestFixture();
-//		Person person = f.createPerson();
-//		
-//		// function not supported!? the generated key stuff...
-//		personDao.insert(person);
-//	}
+	@Test
+	public void test_insert() {
+		DaoImplTestFixture f = new DaoImplTestFixture();
+		Person person = f.createTrey();
+		
+		// function not supported!? the generated key stuff...
+		personDao.insert(person);
+	}
 	
 	@Test
 	public void test_update() {

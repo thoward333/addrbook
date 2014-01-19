@@ -1,10 +1,8 @@
 package com.trey.addrbook.e2e;
 
 import static org.hamcrest.Matchers.is;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 import javax.sql.DataSource;
 
@@ -12,6 +10,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.runners.MockitoJUnitRunner;
+import org.springframework.http.MediaType;
 import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseBuilder;
 import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseType;
 import org.springframework.test.web.servlet.MockMvc;
@@ -23,6 +22,7 @@ import com.trey.addrbook.controller.fixture.ControllerTestFixture;
 import com.trey.addrbook.dao.PersonDao;
 import com.trey.addrbook.dao.PersonDaoImpl;
 import com.trey.addrbook.domain.Person;
+import com.trey.addrbook.dto.save.SavePersonRequest;
 import com.trey.addrbook.service.PersonService;
 import com.trey.addrbook.service.PersonServiceImpl;
 import com.trey.addrbook.util.DtoFactory;
@@ -32,11 +32,12 @@ import com.trey.addrbook.util.DtoFactory;
 public class TestEndToEnd {
 	
 	private MockMvc mockMvc;
+	private DataSource dataSource;
 
 	@Before
 	public void setUp() {
-		DataSource dataSource = new EmbeddedDatabaseBuilder().setType(EmbeddedDatabaseType.HSQL)
-				.addScript("classpath:test-init.sql").build();
+		dataSource = new EmbeddedDatabaseBuilder().setType(EmbeddedDatabaseType.HSQL)
+				.addScript("classpath:init.sql").build();
 
 		PersonDao personDao = new PersonDaoImpl(dataSource);
 		
@@ -86,26 +87,25 @@ public class TestEndToEnd {
 	}
 
 	// complications with generated keys
-//	@Test
-//	public void test_savePerson() throws Exception {
-//		ControllerTestFixture f = new ControllerTestFixture();
-//		Person person = f.createTrey();
-//		final Integer newId = person.getId();
-//		person.setId(null);
-//
-//		SavePersonRequest spr = new SavePersonRequest();
-//		spr.setUsername(person.getUsername());
-//		spr.setFirstName(person.getFirstName());
-//		spr.setLastName(person.getLastName());
-//		
-//		mockMvc.perform(post("/person")
-//				.contentType(MediaType.APPLICATION_JSON)
-//				.content(TestUtil.convertObjectToJsonBytes(spr))
-//				.accept(TestUtil.APPLICATION_JSON_UTF8)
-//				)
-//				.andExpect(status().isOk())
-//				.andExpect(content().string(newId.toString()))
-//				.andReturn();
-//	}
+	@Test
+	public void test_savePerson() throws Exception {
+		ControllerTestFixture f = new ControllerTestFixture();
+		Person person = f.createTrey();
+		person.setId(null);
+
+		SavePersonRequest spr = new SavePersonRequest();
+		spr.setUserName(person.getUserName());
+		spr.setFirstName(person.getFirstName());
+		spr.setLastName(person.getLastName());
+		
+		mockMvc.perform(post("/person")
+				.contentType(MediaType.APPLICATION_JSON)
+				.content(TestUtil.convertObjectToJsonBytes(spr))
+				.accept(TestUtil.APPLICATION_JSON_UTF8)
+				)
+				.andExpect(status().isOk())
+				.andExpect(content().string("4")) // init script creates 3 records
+				.andReturn();
+	}
 
 }

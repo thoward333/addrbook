@@ -8,7 +8,7 @@ package com.trey.addrbook.domain;
 public class Person {
 
 	private Integer id;
-	private String username;
+	private String userName;
 	private String firstName;
 	private String lastName;
 
@@ -20,12 +20,12 @@ public class Person {
 		this.id = id;
 	}
 
-	public String getUsername() {
-		return username;
+	public String getUserName() {
+		return userName;
 	}
 
-	public void setUsername(String username) {
-		this.username = username;
+	public void setUserName(String userName) {
+		this.userName = userName;
 	}
 
 	public String getFirstName() {
@@ -47,7 +47,7 @@ public class Person {
 	@Override
 	public String toString() {
 		StringBuilder builder = new StringBuilder();
-		builder.append("Person [id=").append(id).append(", username=").append(username).append(", firstName=")
+		builder.append("Person [id=").append(id).append(", userName=").append(userName).append(", firstName=")
 				.append(firstName).append(", lastName=").append(lastName).append("]");
 		return builder.toString();
 	}

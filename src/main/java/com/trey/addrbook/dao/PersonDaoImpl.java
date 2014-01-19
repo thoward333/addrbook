@@ -8,6 +8,8 @@ import java.util.Map;
 
 import javax.sql.DataSource;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.BeanPropertySqlParameterSource;
@@ -15,12 +17,15 @@ import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
+import org.springframework.web.WebApplicationInitializer;
 
 import com.trey.addrbook.domain.Person;
 import com.trey.addrbook.exception.PersonNotFoundException;
 
 @Repository
 public class PersonDaoImpl implements PersonDao {
+	
+	private static final Logger logger = LoggerFactory.getLogger(WebApplicationInitializer.class);
 
 	private NamedParameterJdbcTemplate jdbcTemplate;
 
@@ -44,8 +49,9 @@ public class PersonDaoImpl implements PersonDao {
 	public void insert(Person person) {
 		KeyHolder keyHolder = new GeneratedKeyHolder();
 
+		logger.debug("inserting person into database");
 		jdbcTemplate.update(
-				"insert into person (username, first_name, last_name) values (:username, :firstName, :lastName)",
+				"insert into person (user_name, first_name, last_name) values (:userName, :firstName, :lastName)",
 				new BeanPropertySqlParameterSource(person), keyHolder);
 
 		Integer newId = keyHolder.getKey().intValue();
@@ -56,7 +62,7 @@ public class PersonDaoImpl implements PersonDao {
 
 	public void update(Person person) {
 		int numRowsAffected = jdbcTemplate.update(
-				"update person set username = :username, first_name = :firstName, last_name = :lastName where id = :id",
+				"update person set user_name = :userName, first_name = :firstName, last_name = :lastName where id = :id",
 				new BeanPropertySqlParameterSource(person));
 		
 		if (numRowsAffected == 0) {
@@ -68,7 +74,7 @@ public class PersonDaoImpl implements PersonDao {
 		public Person mapRow(ResultSet res, int rowNum) throws SQLException {
 			Person p = new Person();
 			p.setId(res.getInt("id"));
-			p.setUsername(res.getString("username"));
+			p.setUserName(res.getString("user_name"));
 			p.setFirstName(res.getString("first_name"));
 			p.setLastName(res.getString("last_name"));
 			return p;

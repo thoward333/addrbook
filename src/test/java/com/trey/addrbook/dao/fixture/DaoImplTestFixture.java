@@ -10,13 +10,13 @@ import com.trey.addrbook.domain.Person;
 public class DaoImplTestFixture {
 
 	/**
-	 * Creates a Person with id=1, username=thoward333, firstName=Trey, lastName=Howard
+	 * Creates a Person with id=1, userName=thoward333, firstName=Trey, lastName=Howard
 	 * @return
 	 */
 	public Person createTrey() {
 		Person person = new Person();
 		person.setId(1);
-		person.setUsername("thoward333");
+		person.setUserName("thoward333");
 		person.setFirstName("Trey");
 		person.setLastName("Howard");
 		return person;
