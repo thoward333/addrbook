@@ -1,4 +1,4 @@
-package com.trey.controller;
+package com.trey.addrbook.controller;
 
 import static org.mockito.Matchers.*;
 import static org.mockito.Mockito.*;
@@ -62,7 +62,6 @@ public class TestPersonController {
 	public void test_getPersonById_NotFound() throws Exception {
 		final String errorMessage = "Mocking 404 message";
 		when(personService.getPersonById(anyInt())).thenAnswer(new Answer<Person>() {
-			@Override
 			public Person answer(InvocationOnMock invocation) throws Throwable {
 				throw new PersonNotFoundException(errorMessage);
 			}
@@ -99,7 +98,6 @@ public class TestPersonController {
 		person.setId(null);
 		
 		doAnswer(new Answer<Object>() {
-			@Override
 			public Object answer(InvocationOnMock invocation) throws Throwable {
 				Object[] args = invocation.getArguments();
 				Person p = (Person) args[0];

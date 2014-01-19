@@ -1,4 +1,4 @@
-package com.trey.controller;
+package com.trey.addrbook.controller;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.ObjectMapper;

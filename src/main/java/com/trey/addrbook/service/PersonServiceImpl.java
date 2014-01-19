@@ -17,17 +17,14 @@ public class PersonServiceImpl implements PersonService {
 		this.personDao = personDao;
 	}
 
-	@Override
 	public Person getPersonById(Integer id) {
 		return personDao.findById(id);
 	}
 
-	@Override
 	public void savePerson(Person person) {
 		personDao.insert(person);
 	}
 
-//	@Override
 //	public void updatePerson(Person p) {
 //		personDao.update(p);
 //	}

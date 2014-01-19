@@ -23,7 +23,6 @@ public class WebAppInitializer implements WebApplicationInitializer {
 
 	private static final Logger logger = LoggerFactory.getLogger(WebApplicationInitializer.class);
 
-	@Override
 	public void onStartup(ServletContext servletContext) throws ServletException {
 
 		// Create the root appcontext

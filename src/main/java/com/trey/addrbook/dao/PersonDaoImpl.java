@@ -22,14 +22,13 @@ import com.trey.addrbook.exception.PersonNotFoundException;
 @Repository
 public class PersonDaoImpl implements PersonDao {
 
-	private NamedParameterJdbcTemplate jdbcTemplate;
+	/*default*/ NamedParameterJdbcTemplate jdbcTemplate;
 
 	@Autowired
 	public PersonDaoImpl(DataSource dataSource) {
 		this.jdbcTemplate = new NamedParameterJdbcTemplate(dataSource);
 	}
 
-	@Override
 	public Person findById(Integer id) {
 		Map<String, Object> params = new HashMap<String, Object>();
 		params.put("id", id);
@@ -42,7 +41,6 @@ public class PersonDaoImpl implements PersonDao {
 		}
 	}
 
-	@Override
 	public void insert(Person person) {
 		KeyHolder keyHolder = new GeneratedKeyHolder();
 
@@ -56,10 +54,9 @@ public class PersonDaoImpl implements PersonDao {
 		person.setId(newId);
 	}
 
-	@Override
 	public void update(Person person) {
 		int numRowsAffected = jdbcTemplate.update(
-				"update person set username = :username, firstName = :firstName, lastName = :lastName where id = :id",
+				"update person set username = :username, first_name = :firstName, last_name = :lastName where id = :id",
 				new BeanPropertySqlParameterSource(person));
 		
 		if (numRowsAffected == 0) {
@@ -68,7 +65,6 @@ public class PersonDaoImpl implements PersonDao {
 	}
 
 	private static class PersonRowMapper implements RowMapper<Person> {
-		@Override
 		public Person mapRow(ResultSet res, int rowNum) throws SQLException {
 			Person p = new Person();
 			p.setId(res.getInt("id"));
