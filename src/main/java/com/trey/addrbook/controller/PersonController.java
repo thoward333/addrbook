@@ -1,17 +1,21 @@
 package com.trey.addrbook.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.ResponseStatus;
 
 import com.trey.addrbook.domain.Person;
 import com.trey.addrbook.dto.PersonDto;
 import com.trey.addrbook.dto.save.SavePersonRequest;
+import com.trey.addrbook.exception.PersonNotFoundException;
 import com.trey.addrbook.service.PersonService;
 import com.trey.addrbook.util.DtoFactory;
 
@@ -67,6 +71,15 @@ public class PersonController {
 		person.setUsername(request.getUsername());
 		personService.savePerson(person);
 		return person.getId();
+	}
+	
+	// --- Error handlers
+	
+	@ExceptionHandler(PersonNotFoundException.class)
+	@ResponseStatus(HttpStatus.NOT_FOUND)
+	@ResponseBody
+	public String handlePersonNotFoundException(PersonNotFoundException e) {
+		return e.getMessage();
 	}
 
 }

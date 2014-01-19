@@ -17,6 +17,7 @@ import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 
 import com.trey.addrbook.domain.Person;
+import com.trey.addrbook.exception.PersonNotFoundException;
 
 @Repository
 public class PersonDaoImpl implements PersonDao {
@@ -28,20 +29,21 @@ public class PersonDaoImpl implements PersonDao {
 		this.jdbcTemplate = new NamedParameterJdbcTemplate(dataSource);
 	}
 
+	@Override
 	public Person findById(Integer id) {
 		Map<String, Object> params = new HashMap<String, Object>();
 		params.put("id", id);
 
 		List<Person> list = jdbcTemplate.query("select * from person where id = :id", params, new PersonRowMapper());
-		return list.size() == 1 ? list.get(0) : null;
+		if (list.isEmpty()) {
+			throw new PersonNotFoundException("No person found for id: " + id);
+		} else {
+			return list.get(0);
+		}
 	}
 
+	@Override
 	public void insert(Person person) {
-		// Map<String, Object> params = new HashMap<String, Object>();
-		// params.put("username", person.getUsername());
-		// params.put("firstName", person.getFirstName());
-		// params.put("lastName", person.getLastName());
-
 		KeyHolder keyHolder = new GeneratedKeyHolder();
 
 		jdbcTemplate.update(
@@ -54,19 +56,19 @@ public class PersonDaoImpl implements PersonDao {
 		person.setId(newId);
 	}
 
+	@Override
 	public void update(Person person) {
-		// Map<String, Object> params = new HashMap<String, Object>();
-		// params.put("id", person.getId());
-		// params.put("username", person.getUsername());
-		// params.put("firstName", person.getFirstName());
-		// params.put("lastName", person.getLastName());
-
-		jdbcTemplate.update(
+		int numRowsAffected = jdbcTemplate.update(
 				"update person set username = :username, firstName = :firstName, lastName = :lastName where id = :id",
 				new BeanPropertySqlParameterSource(person));
+		
+		if (numRowsAffected == 0) {
+			throw new PersonNotFoundException("No person found for id: " + person.getId());
+		}
 	}
 
 	private static class PersonRowMapper implements RowMapper<Person> {
+		@Override
 		public Person mapRow(ResultSet res, int rowNum) throws SQLException {
 			Person p = new Person();
 			p.setId(res.getInt("id"));

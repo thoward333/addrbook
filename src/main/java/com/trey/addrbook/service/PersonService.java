@@ -21,9 +21,9 @@ public interface PersonService {
 	 */
 	public void savePerson(Person person);
 	
-	/**
-	 * @param person The person to be updated.
-	 */
-	public void updatePerson(Person person);
+//	/**
+//	 * @param person The person to be updated.
+//	 */
+//	public void updatePerson(Person person);
 
 }

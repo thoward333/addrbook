@@ -20,6 +20,7 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import com.trey.addrbook.controller.PersonController;
 import com.trey.addrbook.domain.Person;
 import com.trey.addrbook.dto.save.SavePersonRequest;
+import com.trey.addrbook.exception.PersonNotFoundException;
 import com.trey.addrbook.service.PersonService;
 import com.trey.addrbook.util.DtoFactory;
 import com.trey.controller.fixture.PersonTestFixture;
@@ -43,7 +44,7 @@ public class TestPersonController {
 	}
 
 	@Test
-	public void test_getById() throws Exception {
+	public void test_getPersonById() throws Exception {
 		PersonTestFixture f = new PersonTestFixture();
 		Person person = f.createPerson();
 		when(personService.getPersonById(anyInt())).thenReturn(person);
@@ -58,7 +59,25 @@ public class TestPersonController {
 	}
 
 	@Test
-	public void test_getByIdFromParam() throws Exception {
+	public void test_getPersonById_NotFound() throws Exception {
+		final String errorMessage = "Mocking 404 message";
+		when(personService.getPersonById(anyInt())).thenAnswer(new Answer<Person>() {
+			@Override
+			public Person answer(InvocationOnMock invocation) throws Throwable {
+				throw new PersonNotFoundException(errorMessage);
+			}
+		});
+
+		mockMvc.perform(get("/person/{id}", -1)
+				.accept(TestUtil.APPLICATION_JSON_UTF8)
+				)
+				.andExpect(status().isNotFound())
+				.andExpect(content().string(errorMessage))
+				.andReturn();
+	}
+
+	@Test
+	public void test_getPersonByIdFromParam() throws Exception {
 		PersonTestFixture f = new PersonTestFixture();
 		Person person = f.createPerson();
 		when(personService.getPersonById(anyInt())).thenReturn(person);
@@ -103,6 +122,6 @@ public class TestPersonController {
 				.andExpect(content().string(newId.toString()))
 				.andReturn();
 	}
-
+	
 }
 

@@ -27,9 +27,9 @@ public class PersonServiceImpl implements PersonService {
 		personDao.insert(person);
 	}
 
-	@Override
-	public void updatePerson(Person p) {
-		personDao.update(p);
-	}
+//	@Override
+//	public void updatePerson(Person p) {
+//		personDao.update(p);
+//	}
 
 }
