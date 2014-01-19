@@ -2,6 +2,7 @@ package com.trey.addrbook.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.trey.addrbook.dao.PersonDao;
 import com.trey.addrbook.domain.Person;
@@ -21,6 +22,7 @@ public class PersonServiceImpl implements PersonService {
 		return personDao.findById(id);
 	}
 
+	@Transactional
 	public void savePerson(Person person) {
 		personDao.insert(person);
 	}
