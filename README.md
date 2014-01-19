@@ -11,7 +11,7 @@ Additionally, this project contains no XML. Spring config is fully annotation dr
 
 ###Resources
 
-*. http://www.rockhoppertech.com/blog/spring-mvc-configuration-without-xml/
-*. http://www.java-allandsundry.com/2012/11/spring-test-mvc-with-spring-32rc1.html
-*. http://www.petrikainulainen.net/programming/spring-framework/unit-testing-of-spring-mvc-controllers-normal-controllers/
-*. http://www.javacodegeeks.com/2012/10/junit-testing-spring-service-and-dao.html
+* http://www.rockhoppertech.com/blog/spring-mvc-configuration-without-xml/
+* http://www.java-allandsundry.com/2012/11/spring-test-mvc-with-spring-32rc1.html
+* http://www.petrikainulainen.net/programming/spring-framework/unit-testing-of-spring-mvc-controllers-normal-controllers/
+* http://www.javacodegeeks.com/2012/10/junit-testing-spring-service-and-dao.html
