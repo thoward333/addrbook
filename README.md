@@ -1,8 +1,8 @@
 Address Book
 ========
 
-###
-Technology stack
+###Technology stack
+
 1. Spring REST service (JSON).
 1. AngularJS front end.
 1. Embedded HSQL database.
