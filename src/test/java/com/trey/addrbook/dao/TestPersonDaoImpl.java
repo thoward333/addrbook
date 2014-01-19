@@ -1,32 +1,22 @@
 package com.trey.addrbook.dao;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.*;
 
-import javax.sql.DataSource;
-
-import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.runners.MockitoJUnitRunner;
-import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseBuilder;
-import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseType;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import com.trey.addrbook.dao.fixture.DaoImplTestFixture;
 import com.trey.addrbook.domain.Person;
 import com.trey.addrbook.exception.PersonNotFoundException;
 
-@RunWith(MockitoJUnitRunner.class)
+@RunWith(SpringJUnit4ClassRunner.class)
+@ContextConfiguration(classes = { DaoRootConfig.class })
 public class TestPersonDaoImpl {
 
-	private PersonDaoImpl personDao;
-
-	@Before
-	public void setUp() throws Exception {
-		DataSource dataSource = new EmbeddedDatabaseBuilder().setType(EmbeddedDatabaseType.HSQL)
-				.addScript("classpath:init.sql").build();
-
-		personDao = new PersonDaoImpl(dataSource);
-	}
+	@Autowired private PersonDaoImpl personDao;
 
 	@Test
 	public void test_findById() {

@@ -9,15 +9,15 @@ import static org.hamcrest.Matchers.*;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.Mock;
 import org.mockito.invocation.InvocationOnMock;
-import org.mockito.runners.MockitoJUnitRunner;
 import org.mockito.stubbing.Answer;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
-import com.trey.addrbook.controller.PersonController;
 import com.trey.addrbook.controller.fixture.ControllerTestFixture;
 import com.trey.addrbook.domain.Person;
 import com.trey.addrbook.dto.save.SavePersonRequest;
@@ -30,24 +30,25 @@ import com.trey.addrbook.util.DtoFactory;
  * 
  * @author Trey
  */
-@RunWith(MockitoJUnitRunner.class)
+@RunWith(SpringJUnit4ClassRunner.class)
+@ContextConfiguration(classes = { ControllerConfig.class })
 public class TestPersonController {
+
+	@Autowired private PersonService mockPersonService;
+	@Autowired private DtoFactory dtoFactory;
 
 	private MockMvc mockMvc;
 
-	@Mock private PersonService personService;
-
 	@Before
 	public void setUp() {
-		DtoFactory personDtoFactory = new DtoFactory();
-		mockMvc = MockMvcBuilders.standaloneSetup(new PersonController(personService, personDtoFactory)).build();
+		mockMvc = MockMvcBuilders.standaloneSetup(new PersonController(mockPersonService, dtoFactory)).build();
 	}
 
 	@Test
 	public void test_getPersonById() throws Exception {
 		ControllerTestFixture f = new ControllerTestFixture();
 		Person person = f.createTrey();
-		when(personService.getPersonById(anyInt())).thenReturn(person);
+		when(mockPersonService.getPersonById(anyInt())).thenReturn(person);
 
 		mockMvc.perform(get("/person/{id}", 1)
 				.accept(TestUtil.APPLICATION_JSON_UTF8)
@@ -61,7 +62,7 @@ public class TestPersonController {
 	@Test
 	public void test_getPersonById_NotFound() throws Exception {
 		final String errorMessage = "Mocking 404 message";
-		when(personService.getPersonById(anyInt())).thenAnswer(new Answer<Person>() {
+		when(mockPersonService.getPersonById(anyInt())).thenAnswer(new Answer<Person>() {
 			public Person answer(InvocationOnMock invocation) throws Throwable {
 				throw new PersonNotFoundException(errorMessage);
 			}
@@ -79,7 +80,7 @@ public class TestPersonController {
 	public void test_getPersonByIdFromParam() throws Exception {
 		ControllerTestFixture f = new ControllerTestFixture();
 		Person person = f.createTrey();
-		when(personService.getPersonById(anyInt())).thenReturn(person);
+		when(mockPersonService.getPersonById(anyInt())).thenReturn(person);
 
 		mockMvc.perform(get("/person?id={id}", 1)
 				.accept(TestUtil.APPLICATION_JSON_UTF8)
@@ -104,7 +105,7 @@ public class TestPersonController {
 				p.setId(newId); // emulate the successful save populating the id
 	            return "called with arguments: " + args;
 			}
-		}).when(personService).savePerson((Person) anyObject());
+		}).when(mockPersonService).savePerson((Person) anyObject());
 
 		SavePersonRequest spr = new SavePersonRequest();
 		spr.setUserName(person.getUserName());
