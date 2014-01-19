@@ -1,4 +1,4 @@
-package com.trey.controller.fixture;
+package com.trey.addrbook.dao.fixture;
 
 import com.trey.addrbook.domain.Person;
 
@@ -7,9 +7,13 @@ import com.trey.addrbook.domain.Person;
  * 
  * @author Trey
  */
-public class PersonTestFixture {
+public class DaoImplTestFixture {
 
-	public Person createPerson() {
+	/**
+	 * Creates a Person with id=1, username=thoward333, firstName=Trey, lastName=Howard
+	 * @return
+	 */
+	public Person createTrey() {
 		Person person = new Person();
 		person.setId(1);
 		person.setUsername("thoward333");

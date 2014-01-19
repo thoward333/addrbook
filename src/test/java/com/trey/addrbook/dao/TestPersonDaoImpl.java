@@ -1,6 +1,6 @@
 package com.trey.addrbook.dao;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 import javax.sql.DataSource;
 
@@ -11,9 +11,9 @@ import org.mockito.runners.MockitoJUnitRunner;
 import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseBuilder;
 import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseType;
 
+import com.trey.addrbook.dao.fixture.DaoImplTestFixture;
 import com.trey.addrbook.domain.Person;
 import com.trey.addrbook.exception.PersonNotFoundException;
-import com.trey.controller.fixture.PersonTestFixture;
 
 @RunWith(MockitoJUnitRunner.class)
 public class TestPersonDaoImpl {
@@ -52,8 +52,8 @@ public class TestPersonDaoImpl {
 	
 	@Test
 	public void test_update() {
-		PersonTestFixture f = new PersonTestFixture();
-		Person person = f.createPerson();
+		DaoImplTestFixture f = new DaoImplTestFixture();
+		Person person = f.createTrey();
 		
 		String newFirstName = "Fred";
 		

@@ -22,7 +22,7 @@ import com.trey.addrbook.exception.PersonNotFoundException;
 @Repository
 public class PersonDaoImpl implements PersonDao {
 
-	/*default*/ NamedParameterJdbcTemplate jdbcTemplate;
+	private NamedParameterJdbcTemplate jdbcTemplate;
 
 	@Autowired
 	public PersonDaoImpl(DataSource dataSource) {

@@ -18,12 +18,12 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
 import com.trey.addrbook.controller.PersonController;
+import com.trey.addrbook.controller.fixture.ControllerTestFixture;
 import com.trey.addrbook.domain.Person;
 import com.trey.addrbook.dto.save.SavePersonRequest;
 import com.trey.addrbook.exception.PersonNotFoundException;
 import com.trey.addrbook.service.PersonService;
 import com.trey.addrbook.util.DtoFactory;
-import com.trey.controller.fixture.PersonTestFixture;
 
 /**
  * Unit tests the controller, including JSON serialization.
@@ -45,8 +45,8 @@ public class TestPersonController {
 
 	@Test
 	public void test_getPersonById() throws Exception {
-		PersonTestFixture f = new PersonTestFixture();
-		Person person = f.createPerson();
+		ControllerTestFixture f = new ControllerTestFixture();
+		Person person = f.createTrey();
 		when(personService.getPersonById(anyInt())).thenReturn(person);
 
 		mockMvc.perform(get("/person/{id}", 1)
@@ -77,8 +77,8 @@ public class TestPersonController {
 
 	@Test
 	public void test_getPersonByIdFromParam() throws Exception {
-		PersonTestFixture f = new PersonTestFixture();
-		Person person = f.createPerson();
+		ControllerTestFixture f = new ControllerTestFixture();
+		Person person = f.createTrey();
 		when(personService.getPersonById(anyInt())).thenReturn(person);
 
 		mockMvc.perform(get("/person?id={id}", 1)
@@ -92,8 +92,8 @@ public class TestPersonController {
 
 	@Test
 	public void test_savePerson() throws Exception {
-		PersonTestFixture f = new PersonTestFixture();
-		Person person = f.createPerson();
+		ControllerTestFixture f = new ControllerTestFixture();
+		Person person = f.createTrey();
 		final Integer newId = person.getId();
 		person.setId(null);
 		
