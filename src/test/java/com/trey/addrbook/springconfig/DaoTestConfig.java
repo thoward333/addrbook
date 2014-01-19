@@ -1,4 +1,4 @@
-package com.trey.addrbook.dao;
+package com.trey.addrbook.springconfig;
 
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
@@ -14,6 +14,6 @@ import com.trey.addrbook.bootstrap.DatabaseConfig;
 @Configuration
 @Import(DatabaseConfig.class)
 @ComponentScan(basePackages = { "com.trey.addrbook.dao" })
-public class DaoRootConfig {
+public class DaoTestConfig {
 
 }

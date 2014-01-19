@@ -1,17 +1,14 @@
 package com.trey.addrbook.bootstrap;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.Reader;
-import java.sql.SQLException;
-import java.sql.Statement;
-
 import javax.sql.DataSource;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseBuilder;
 import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseType;
+import org.springframework.transaction.PlatformTransactionManager;
+import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 /**
  * Database configuration. Note the 'Import' annotation in RootConfig that activates this. PropertySource and
@@ -20,6 +17,7 @@ import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseType;
  * @author Trey
  */
 @Configuration
+@EnableTransactionManagement
 //@PropertySource("jdbc.properties")
 public class DatabaseConfig {
 
@@ -39,17 +37,10 @@ public class DatabaseConfig {
 
 		return dataSource;
 	}
-
-	public boolean executeDBScripts(Reader script, Statement stmt) throws IOException, SQLException {
-		BufferedReader in = new BufferedReader(script);
-		String str;
-		StringBuffer sb = new StringBuffer();
-		while ((str = in.readLine()) != null) {
-			sb.append(str + "\n ");
-		}
-		in.close();
-		stmt.executeUpdate(sb.toString());
-		return true;
-	}
+	
+	@Bean
+    public PlatformTransactionManager txManager() {
+        return new DataSourceTransactionManager(dataSource());
+    }
 
 }

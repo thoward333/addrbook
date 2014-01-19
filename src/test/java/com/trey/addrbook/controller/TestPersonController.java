@@ -23,6 +23,7 @@ import com.trey.addrbook.domain.Person;
 import com.trey.addrbook.dto.save.SavePersonRequest;
 import com.trey.addrbook.exception.PersonNotFoundException;
 import com.trey.addrbook.service.PersonService;
+import com.trey.addrbook.springconfig.ControllerTestConfig;
 import com.trey.addrbook.util.DtoFactory;
 
 /**
@@ -31,7 +32,7 @@ import com.trey.addrbook.util.DtoFactory;
  * @author Trey
  */
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(classes = { ControllerConfig.class })
+@ContextConfiguration(classes = { ControllerTestConfig.class })
 public class TestPersonController {
 
 	@Autowired private PersonService mockPersonService;

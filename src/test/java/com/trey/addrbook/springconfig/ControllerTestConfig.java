@@ -1,4 +1,4 @@
-package com.trey.addrbook.controller;
+package com.trey.addrbook.springconfig;
 
 import org.mockito.Mockito;
 import org.springframework.beans.factory.config.ConfigurableBeanFactory;
@@ -11,7 +11,7 @@ import com.trey.addrbook.service.PersonService;
 
 @Configuration
 @ComponentScan(basePackages = { "com.trey.addrbook.util" })
-public class ControllerConfig {
+public class ControllerTestConfig {
 
 	@Bean
 	@Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)
