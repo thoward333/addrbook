@@ -1,7 +1,8 @@
-addrbook
+Address Book
 ========
 
-Technology stack:
+###
+Technology stack
 1. Spring REST service (JSON).
 1. AngularJS front end.
 1. Embedded HSQL database.
@@ -9,8 +10,7 @@ Technology stack:
 
 Additionally, this project contains no XML. Spring config is fully annotation driven and the web.xml is omitted per Servlet 3.0 spec.
 
-Resources
-========
+###Resources
 
 1. http://www.rockhoppertech.com/blog/spring-mvc-configuration-without-xml/
 1. http://www.java-allandsundry.com/2012/11/spring-test-mvc-with-spring-32rc1.html
