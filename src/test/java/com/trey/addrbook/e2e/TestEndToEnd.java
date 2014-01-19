@@ -1,50 +1,40 @@
 package com.trey.addrbook.e2e;
 
-import static org.hamcrest.Matchers.is;
+import static org.hamcrest.Matchers.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
-
-import javax.sql.DataSource;
 
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.runners.MockitoJUnitRunner;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
-import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseBuilder;
-import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseType;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
+import com.trey.addrbook.bootstrap.RootConfig;
 import com.trey.addrbook.controller.PersonController;
 import com.trey.addrbook.controller.TestUtil;
 import com.trey.addrbook.controller.fixture.ControllerTestFixture;
-import com.trey.addrbook.dao.PersonDao;
-import com.trey.addrbook.dao.PersonDaoImpl;
 import com.trey.addrbook.domain.Person;
 import com.trey.addrbook.dto.save.SavePersonRequest;
 import com.trey.addrbook.service.PersonService;
-import com.trey.addrbook.service.PersonServiceImpl;
 import com.trey.addrbook.util.DtoFactory;
 
-// TODO convert to use Spring's JUnitRunner so we don't have to manually define spring context
-@RunWith(MockitoJUnitRunner.class)
+@RunWith(SpringJUnit4ClassRunner.class)
+@ContextConfiguration(classes = { RootConfig.class })
 public class TestEndToEnd {
+
+	@Autowired private PersonService personService;
+	@Autowired private DtoFactory dtoFactory;
 	
 	private MockMvc mockMvc;
-	private DataSource dataSource;
 
 	@Before
 	public void setUp() {
-		dataSource = new EmbeddedDatabaseBuilder().setType(EmbeddedDatabaseType.HSQL)
-				.addScript("classpath:init.sql").build();
-
-		PersonDao personDao = new PersonDaoImpl(dataSource);
-		
-		PersonService personService = new PersonServiceImpl(personDao);
-		
-		DtoFactory personDtoFactory = new DtoFactory();
-		mockMvc = MockMvcBuilders.standaloneSetup(new PersonController(personService, personDtoFactory)).build();
+		mockMvc = MockMvcBuilders.standaloneSetup(new PersonController(personService, dtoFactory)).build();
 	}
 
 	@Test
