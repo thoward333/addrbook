@@ -5,3 +5,5 @@
 .settings/org.eclipse.m2e.core.prefs
 deploy.cmd
 target
+.gradle
+build
